@@ -8,18 +8,25 @@ The functions `fprintMatPy*.m` extend `fprintMatPy*.m` to print symbolic matrice
 
 ## Examples
 
-`syms a b c d k; fprintPyFun2('test', {'a', 'b', 'c', 'd', 'k'}, a*b^k+c+d, 5)`
-produces output to `test.py`:
+`syms a b c; fprintMatPy('test', {'a', 'b', 'c'}, [a*b+c, a^b])` produces output to `test.py`:
 
-    def test(a, b, c, d, k):
+    def test_1_1(a, b, c):
+        return c + a*b
+
+    def test_1_2(a, b, c):
+        return a**b
+
+
+`syms a b c d k; fprintMatPy2('test1', {'a', 'b', 'c', 'd', 'k'}, a*b^k+c+d, 5)` produces output to `test1.py`:
+
+    def test1(a, b, c, d, k):
         _1 = c
         _2 = d
         _3 = a*b**k
         _0 = _1+_2+_3
         return _0
 
-`syms a b c d k; fprintPyFun2('test2', {'a', 'b', 'c', 'd', 'k'}, a*b^k+c+d, 0)`
-produces output to `test2.py`:
+`syms a b c d k; fprintMatPy2('test2', {'a', 'b', 'c', 'd', 'k'}, a*b^k+c+d, 0)` produces output to `test2.py`:
 
     def test(a, b, c, d, k):
         _1 = c
