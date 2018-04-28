@@ -8,14 +8,15 @@ function fprintMatPy(file_name, arg_name, var_sym)
 % Example
 %  syms a b c; fprintMatPy('test.py', {'a', 'b', 'c'}, a*b+c)
 
+    fileID = fopen([file_name,'.py'],'w');
     if numel(var_sym) == 1
-        fprintPyFun(file_name, arg_name, var_sym);
+        fprintPyFun(fileID, file_name, arg_name, var_sym);
     else
         for row = 1 : size(var_sym, 1)
             for col = 1 : size(var_sym, 2)
-                fprintPyFun([file_name, '_', num2str(row), '_', num2str(col)], arg_name, var_sym(row, col));
+                fprintPyFun(fileID, [file_name, '_', num2str(row), '_', num2str(col)], arg_name, var_sym(row, col));
             end
         end
     end
+    fclose(fileID);
 end
-

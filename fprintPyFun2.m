@@ -1,29 +1,16 @@
-function fprintPyFun2(file_name, arg_name, var_sym, max_expression_len)
+function fprintPyFun2(fileID, fun_name, arg_name, var_sym, max_expression_len)
 %FPRINTPYFUN2 Prints symbolic expressions as callable python scripts
 %  Extension to fprintPyFun: Straps down longer equations with more than
 %  max_expression_len characters
 % Author: tkorthals@cit-ec.uni-bielefeld.de
 % Input
-%  file_name                The file name
+%  fileID                   The file ID
+%  fun_name                 Name of the function
 %  arg_name                 Arguments of symbolic expressions
 %  var_sym                  Matrix of symbolic expressions
 %  max_expression_len       Maximum lenght of symbolic expression
-% Example
-%  syms a b c d k; fprintPyFun2('test', {'a', 'b', 'c', 'd', 'k'}, a*b^k+c+d, 0)
-%  Result in test.py:
-%  def test(a, b, c, d, k):
-%      _1 = c
-%      _2 = d
-%      _4 = a
-%      _6 = b
-%      _7 = k
-%      _5 = _6^_7
-%      _3 = _4*_5
-%      _0 = _1+_2+_3
-%      return _0
 
-    fileID = fopen([file_name,'.py'],'w');
-    fprintf(fileID,'def %s(',file_name);
+    fprintf(fileID,'def %s(',fun_name);
     for idx = 1 : numel(arg_name)
         fprintf(fileID,'%s',arg_name{idx});
         if idx ~= numel(arg_name)
@@ -33,8 +20,7 @@ function fprintPyFun2(file_name, arg_name, var_sym, max_expression_len)
     fprintf(fileID,'):\n');
     cnt = 0;
     fprintPyFun2_split(fileID, cnt, var_sym, max_expression_len);
-    fprintf(fileID,'    return _0\n');
-    fclose(fileID);
+    fprintf(fileID,'    return _0\n\n');
 end
 
 function cnt_next = fprintPyFun2_split(fileID, cnt, var_sym, max_expression_len)
@@ -68,6 +54,6 @@ if (numel(childs) > 1 && numel(char(var_sym)) > max_expression_len)
     fprintf(fileID,'    _%s = %s\n', num2str(cnt), term.extractAfter(extractAfter));
     cnt_next = cnt;
 else
-    fprintf(fileID,'    _%s = %s\n', num2str(cnt), strrep(strrep(strrep(char(var_sym), 'conj', ''), '^', '**'), '.', ''));
+    fprintf(fileID,'    _%s = %s\n', num2str(cnt), sym2py(var_sym));
 end
 end
