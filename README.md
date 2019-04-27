@@ -1,5 +1,5 @@
 # sym2pyfun
-Convert Matlab symbolic functions to python function
+![Logo](logo.png?raw=true "Convert Matlab symbolic functions to python function")
 
 There exist two main functions that are `fprintMatPy.m` and `fprintMatPy2.m` which convert a symbolic expression to a python function.
 `fprintMatPy.m` extract the function as is, where `fprintMatPy2.m` is able to split long equations (s.t. consist out of more characters than a given value) to make them parseable by python and cython.
